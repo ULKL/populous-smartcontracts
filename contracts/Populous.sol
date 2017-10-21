@@ -221,12 +221,12 @@ contract Populous is withAccessManager {
     function Populous(address _accessManager) public withAccessManager(_accessManager) { }
 
     // Sets the crowdsale manager address
-    function setCM(address _crowdsaleManager) public {
+    function setCM(address _crowdsaleManager) public onlyServer {
         CM = iCrowdsaleManager(_crowdsaleManager);
     }
 
     // Sets the deposit contracts manager address
-    function setDCM(address _depositContractsManager) public {
+    function setDCM(address _depositContractsManager) public onlyServer {
         DCM = iDepositContractsManager(_depositContractsManager);
     }
 
