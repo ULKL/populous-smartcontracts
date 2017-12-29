@@ -428,8 +428,8 @@ contract Crowdsale is withAccessManager {
         return paidAmount;
     }
 
-    /** @dev Gets the paid amount 
-      * @return uint The paid amount.
+    /** @dev Gets the winning group index 
+      * @return uint The index for winning group.
       */
     function getWinnerGroupIndex() public view returns (uint) {
         return winnerGroupIndex;
