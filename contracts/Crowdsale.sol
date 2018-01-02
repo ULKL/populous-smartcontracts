@@ -75,7 +75,8 @@ contract Crowdsale is withAccessManager {
     uint public groupsReceivedTokensBack;
     uint public winnerGroupIndex;
     bool public hasWinnerGroup;
-
+    bool public closedWithNoBids;
+    bool public deadlineReached;
     uint public paidAmount;
 
     bool public sentToBeneficiary;
@@ -187,13 +188,20 @@ contract Crowdsale is withAccessManager {
         if (groups[groupIndex].biddersReceivedTokensBack == groups[groupIndex].bidders.length) {
             groups[groupIndex].hasReceivedTokensBack = true;
             groupsReceivedTokensBack++;
-            
+            // comparing number of groups to number of groups that have received tokens back
+            // check if groupIndex = winner group Index
+            // check if hasWinnerGroup
+            // check if crowdsaleisclosed - already checked before state change
             if (groups.length == 1) {
-                setSentToLosingGroups();
-                setSentToWinnerGroup();
+                if (hasWinnerGroup) {
+                    setSentToLosingGroups();
+                    setSentToWinnerGroup();
+                } else {
+                    setSentToLosingGroups();
+                }
             } else if (groups.length - 1 == groupsReceivedTokensBack) {
                 setSentToLosingGroups();
-            } else if (groups.length == groupsReceivedTokensBack) {
+            } else if (groups.length == groupsReceivedTokensBack && hasWinnerGroup) { // bug fix
                 setSentToWinnerGroup();
             }
         }
@@ -420,6 +428,18 @@ contract Crowdsale is withAccessManager {
 
     // CONSTANT METHODS
 
+    /** @dev Gets bool indicating crowdsale deadline has reached
+      * @return bool deadlineReached
+      */
+    function getDeadlineReached() public view returns (bool) {
+        return deadlineReached;
+    }
+    /** @dev Gets bool closedWithNoBids for crowdsale
+      * @return bool closedWithNoBids indicates if crowdsale was closed without any bids.
+      */
+    function getClosedNoBids() public view returns (bool) {
+        return closedWithNoBids;
+    }
 
     /** @dev Gets the paid amount 
       * @return uint The paid amount.
