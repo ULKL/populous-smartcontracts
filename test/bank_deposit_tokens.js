@@ -130,7 +130,9 @@ describe("Deposit Tokens > ", function() {
         // the deposit amount is refunded later
         // When the actor deposits funds into the platform, an equivalent amount of tokens is deposited into his account
         // client gets receive amount in the particular currency ledger from 'Populous'
-        P.deposit(config.INVESTOR1_ACC, global.PPT.address, receiveCurrency, depositAmount, receiveAmount).then(function() {
+        P.deposit(config.INVESTOR1_ACC, global.PPT.address, receiveCurrency, depositAmount, receiveAmount).then(function(result) {
+            console.log('new deposit log', result.logs[2]);
+            console.log('PPT address', global.PPT.address);
             return DCM.getActiveDepositList.call(config.INVESTOR1_ACC, global.PPT.address, "GBP");
         }).then(function(deposit) {
             console.log('active deposit list', deposit);

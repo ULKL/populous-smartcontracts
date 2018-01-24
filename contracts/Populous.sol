@@ -572,7 +572,7 @@ contract Populous is withAccessManager {
       * @dev When the actor deposits funds into the platform, 
       * @dev an equivalent amount of tokens is deposited into his account.
       * @param clientId The client ID.
-      * @param populousTokenContract The token contract.
+      * @param populousTokenContract The Populous token contract.
       * @param receiveCurrency The currency symbol.
       * @param depositAmount The deposit amount.
       * @param receiveAmount The receive amount.
