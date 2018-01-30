@@ -1,12 +1,12 @@
 pragma solidity ^0.4.17;
 
-import "./ERC23Token.sol";
+import "./ERC20Token.sol";
 import "./SafeMath.sol";
 import "./withAccessManager.sol";
 
 
 /// @title CurrencyToken contract
-contract CurrencyToken is ERC23Token, withAccessManager {
+contract CurrencyToken is ERC20Token, withAccessManager {
 
     // FIELDS
 
