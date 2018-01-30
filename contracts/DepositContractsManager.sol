@@ -177,7 +177,7 @@ contract DepositContractsManager is withAccessManager {
       */
     function getActiveDepositList(bytes32 clientId, address populousTokenContract, bytes32 receiveCurrency) 
         public 
-        view returns (uint, uint, uint) {
+        view returns (uint, uint, uint){
         return (
             deposits[clientId][populousTokenContract][receiveCurrency].list.length,
             deposits[clientId][populousTokenContract][receiveCurrency].deposited,
@@ -197,6 +197,8 @@ contract DepositContractsManager is withAccessManager {
     function getActiveDeposit(bytes32 clientId, address populousTokenContract, bytes32 receiveCurrency, uint depositIndex) 
         public 
         view returns (uint, uint, bool) {
+        public
+        view returns (uint, uint, bool){
         return (
             deposits[clientId][populousTokenContract][receiveCurrency].list[depositIndex].deposited,
             deposits[clientId][populousTokenContract][receiveCurrency].list[depositIndex].received,
