@@ -28,7 +28,7 @@ contract Populous is withAccessManager {
     event EventImportedPokens(address from, bytes32 clientId, bytes32 currency, uint amount);
 
     // crowdsale events
-    event EventNewCrowdsale(address crowdsale, bytes32 _currencySymbol, bytes32 _borrowerId, bytes32 _invoiceId, string _invoiceNumber, uint _invoiceAmount, uint _fundingGoal, uint deadline);
+    //event EventNewCrowdsale(address crowdsale, bytes32 _currencySymbol, bytes32 _borrowerId, bytes32 _invoiceId, string _invoiceNumber, uint _invoiceAmount, uint _fundingGoal, uint deadline);
     event EventBeneficiaryFunded(address crowdsaleAddr, bytes32 borrowerId, bytes32 currency, uint amount);
     event EventLosingGroupBidderRefunded(address crowdsaleAddr, uint groupIndex, bytes32 bidderId, bytes32 currency, uint amount);
     event EventPaymentReceived(address crowdsaleAddr, bytes32 currency, uint amount);
@@ -107,22 +107,6 @@ contract Populous is withAccessManager {
         currenciesSymbols[currencies[_tokenSymbol]] = _tokenSymbol;
 
         EventNewCurrency(_tokenName, _decimalUnits, _tokenSymbol, currencies[_tokenSymbol]);
-    }
-
-    // Deposit function called by our external ERC23 tokens upon transfer to the contract
-    function tokenFallback(address from, uint amount, bytes data) public {
-        bytes32 currencySymbol = currenciesSymbols[msg.sender];
-
-        require(currencySymbol.length != 0);
-
-        bytes32 clientId;
-        assembly {
-            clientId := mload(add(data, 32))
-        }
-        require(CurrencyToken(msg.sender).destroyTokens(amount) != false);
-        
-        ledger[currencySymbol][clientId] = SafeMath.safeAdd(ledger[currencySymbol][clientId], amount);
-        EventDeposit(from, clientId, currencySymbol, amount);
     }
 
     /** @dev Allows a token owner to withdraw from their wallet to another address
@@ -232,7 +216,6 @@ contract Populous is withAccessManager {
         uint256 balance = CT.balanceOf(from);
         //balance is more than 0, and balance has been destroyed.
         require(CT.balanceOf(from) > 0 && CT.destroyTokensFrom(balance, from) == true);
-
         //credit ledger
         mintTokens(currency, balance);
         //credit account
@@ -277,50 +260,6 @@ contract Populous is withAccessManager {
     */
 
     // NON-CONSTANT METHODS
-
-
-    /** @dev Creates a new Crowdsale contract instance for an invoice crowdsale restricted to server.
-      * @param _currencySymbol The currency symbol, e.g., GBP.
-      * @param _borrowerId The unique borrower ID.
-      * @param _invoiceId The unique invoice ID.
-      * @param _invoiceNumber The unique invoice number.
-      * @param _invoiceAmount The invoice amount.
-      * @param _fundingGoal The funding goal of the borrower.
-      * @param _platformTaxPercent The percentage charged by the platform
-      * @param _signedDocumentIPFSHash The hash of related invoice documentation saved on IPFS.
-      */
-    function createCrowdsale(
-            bytes32 _currencySymbol,
-            bytes32 _borrowerId,
-            bytes32 _invoiceId,
-            string _invoiceNumber,
-            uint _invoiceAmount,
-            uint _fundingGoal,
-            uint _platformTaxPercent,
-            string _signedDocumentIPFSHash,
-            uint _extraTime)
-        public onlyServer
-    {
-        require(currencies[_currencySymbol] != 0x0);
-
-        address crowdsaleAddr = CM.createCrowdsale(
-            _currencySymbol,
-            _borrowerId,
-            _invoiceId,
-            _invoiceNumber,
-            _invoiceAmount,
-            _fundingGoal,
-            _platformTaxPercent,
-            _signedDocumentIPFSHash,
-            _extraTime
-        );
-
-        uint deadline = now + 24 hours;
-
-        EventNewCrowdsale(crowdsaleAddr, _currencySymbol, _borrowerId, _invoiceId, _invoiceNumber, _invoiceAmount, _fundingGoal, deadline);
-
-    }
-
 
     /** @dev Allows a bidder to place a bid in an invoice crowdsale.
       * @param groupIndex The index/location of a group in a set of groups.

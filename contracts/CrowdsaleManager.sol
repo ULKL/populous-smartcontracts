@@ -1,11 +1,13 @@
 pragma solidity ^0.4.17;
 
 import "./Crowdsale.sol";
+import './Populous.sol';
 
 
 /// @title Crowdsalemanager contract
 contract CrowdsaleManager is withAccessManager {
 
+     event EventNewCrowdsale(address crowdsale, bytes32 _currencySymbol, bytes32 _borrowerId, bytes32 _invoiceId, string _invoiceNumber, uint _invoiceAmount, uint _fundingGoal, uint deadline);
     // FIELDS
 
 
@@ -46,7 +48,18 @@ contract CrowdsaleManager is withAccessManager {
       * @param _signedDocumentIPFSHash The hash of a document stored in IPFS.
       * @return crowdsaleAddr The crowdsale address derived from deploying a crowdsale.
       */
+          /** @dev Creates a new Crowdsale contract instance for an invoice crowdsale restricted to server.
+      * @param _currencySymbol The currency symbol, e.g., GBP.
+      * @param _borrowerId The unique borrower ID.
+      * @param _invoiceId The unique invoice ID.
+      * @param _invoiceNumber The unique invoice number.
+      * @param _invoiceAmount The invoice amount.
+      * @param _fundingGoal The funding goal of the borrower.
+      * @param _platformTaxPercent The percentage charged by the platform
+      * @param _signedDocumentIPFSHash The hash of related invoice documentation saved on IPFS.
+      */
     function createCrowdsale(
+            address populousContract,
             bytes32 _currencySymbol,
             bytes32 _borrowerId,
             bytes32 _invoiceId,
@@ -58,14 +71,16 @@ contract CrowdsaleManager is withAccessManager {
             uint _extraTime)
         public
         onlyPopulous
-        returns (address crowdsaleAddr)
     {
         // Avoid using the same invoice in more than crowdsale
+        Populous populous = Populous(populousContract);
+
+        require(populous.getCurrency(_currencySymbol) != 0x0);
         require(invoicesIndex[_borrowerId][_invoiceNumber] != _invoiceAmount);
         require(_fundingGoal < _invoiceAmount);
         invoicesIndex[_borrowerId][_invoiceNumber] = _invoiceAmount;
 
-        crowdsaleAddr = new Crowdsale(
+        address crowdsaleAddr = new Crowdsale(
             address(AM),
             _currencySymbol,
             _borrowerId,
@@ -77,5 +92,9 @@ contract CrowdsaleManager is withAccessManager {
             _signedDocumentIPFSHash,
             _extraTime
         );
+
+        uint deadline = now + 24 hours;
+
+        EventNewCrowdsale(crowdsaleAddr, _currencySymbol, _borrowerId, _invoiceId, _invoiceNumber, _invoiceAmount, _fundingGoal, deadline);
     }
 }

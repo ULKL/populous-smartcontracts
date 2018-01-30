@@ -3,7 +3,7 @@ Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
 .*/
 
 
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.17;
 
 import "./iERC20Token.sol";
 
