@@ -8,13 +8,6 @@ import "./withAccessManager.sol";
 /// @title CurrencyToken contract
 contract CurrencyToken is ERC20Token, withAccessManager {
 
-    // FIELDS
-
-    bytes32 public name;// token name, e.g, pounds for fiat UK pounds.
-    uint8 public decimals;// How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
-    bytes32 public symbol;// An identifier: eg SBX.
-
-
     // NON-CONSTANT METHODS
     
     /** @dev Creates a new currency/token.
