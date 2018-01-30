@@ -34,10 +34,6 @@ contract Populous is withAccessManager {
     event EventPaymentReceived(address crowdsaleAddr, bytes32 currency, uint amount);
     event EventWinnerGroupBidderFunded(address crowdsaleAddr, uint groupIndex, bytes32 bidderId, bytes32 currency, uint bidAmount, uint benefitsAmount);
 
-    // PPT deposits events
-    event EventNewDepositContract(bytes32 clientId, address depositContractAddress);
-    event EventNewDeposit(bytes32 clientId, address populousTokenContract, bytes32 receiveCurrency, uint deposited, uint received, uint depositIndex);
-    event EventDepositReleased(bytes32 clientId, address populousTokenContract, bytes32 releaseCurrency, uint deposited, uint received, uint depositIndex);
 
 
     // FIELDS
@@ -47,12 +43,6 @@ contract Populous is withAccessManager {
     bytes32 constant LEDGER_SYSTEM_ACCOUNT = "Populous";
     // This has to be the same one as in Crowdsale
     enum States { Pending, Open, Closed, WaitingForInvoicePayment, PaymentReceived, Completed }
-
-    // Fields that can be changed by functions
-
-    // conract type fields
-    iCrowdsaleManager public CM;
-    iDepositContractsManager public DCM;
 
     // The 'ledger' will hold records of the amount of tokens
     // an account holds and what currency it is.
@@ -70,17 +60,6 @@ contract Populous is withAccessManager {
     // Constructor method called when contract instance is 
     // deployed with 'withAccessManager' modifier.
     function Populous(address _accessManager) public withAccessManager(_accessManager) { }
-
-    // Sets the crowdsale manager address
-    function setCM(address _crowdsaleManager) public onlyServer {
-        CM = iCrowdsaleManager(_crowdsaleManager);
-    }
-
-    // Sets the deposit contracts manager address
-    function setDCM(address _depositContractsManager) public onlyServer {
-        DCM = iDepositContractsManager(_depositContractsManager);
-    }
-
     /**
     BANK MODULE
     */
@@ -249,6 +228,11 @@ contract Populous is withAccessManager {
       */
     function getCurrencySymbol(address currency) public view returns (bytes32) {
         return currenciesSymbols[currency];
+    }
+
+    //get the getLedgerSystemAccount
+    function getLedgerSystemAccount() public view returns(bytes32) {
+        return LEDGER_SYSTEM_ACCOUNT;
     }
 
     /**
@@ -508,107 +492,5 @@ contract Populous is withAccessManager {
     }    
     /**
     END OF CROWDSALE MODULE
-    */
-
-    /**
-    START OF PPT DEPOSIT MODULE
-    */
-
-    // NON-CONSTANT METHODS
-
-    function createDepositContract(bytes32 clientId) public onlyServer {
-        // Creates a new deposit contract linked to a client ID
-        address depositContractAddress = iDepositContractsManager(DCM).create(clientId);
-        // Event triggered when deposit contract is created
-        EventNewDepositContract(clientId, depositContractAddress);
-    }
-
-    /** @dev Deposits an amount of tokens linked to a client ID.
-      * @dev client receives the receiveAmount in the receiveCurrency
-      * @dev the amount is sent from populous and linked to clientId 
-      * @dev on the ledger in the specified currency
-      * @dev When the actor deposits funds into the platform, 
-      * @dev an equivalent amount of tokens is deposited into his account.
-      * @param clientId The client ID.
-      * @param populousTokenContract The Populous token contract.
-      * @param receiveCurrency The currency symbol.
-      * @param depositAmount The deposit amount.
-      * @param receiveAmount The receive amount.
-      * @return bool boolean value indicating whether or not a deposit transaction has been made with success.
-      */
-    function deposit(
-        bytes32 clientId,
-        address populousTokenContract,
-        bytes32 receiveCurrency,
-        uint depositAmount,
-        uint receiveAmount
-    )
-        public onlyServer returns (bool)
-    {
-        bool success;
-        uint depositIndex;
-        
-        // success and depositIndex are both returned from the deposit method of
-        // iDepositContractsManager
-        (success, depositIndex) = iDepositContractsManager(DCM).deposit(
-            clientId,
-            populousTokenContract,
-            receiveCurrency,
-            depositAmount,
-            receiveAmount
-        );
-
-        if (success) {
-            _mintTokens(receiveCurrency, receiveAmount);
-            _transfer(receiveCurrency, LEDGER_SYSTEM_ACCOUNT, clientId, receiveAmount);
-
-            EventNewDeposit(clientId, populousTokenContract, receiveCurrency, depositAmount, receiveAmount, depositIndex);
-            return true;
-        }
-        return false;
-    }
-
-    /** @dev Releases a deposit to an address/wallet.
-      * @param clientId The client ID.
-      * @param populousTokenContract The token contract.
-      * @param releaseCurrency The currency symbol.
-      * @param receiver The address/wallet of the receiver.
-      * @param depositIndex The index/location of a specific deposit.
-      * @return bool boolean value indicating whether or not a deposit has been updated with success.
-      */
-    function releaseDeposit(
-        bytes32 clientId, 
-        address populousTokenContract,
-        bytes32 releaseCurrency,
-        address receiver,
-        uint depositIndex
-    )
-        public
-        onlyServer
-        returns (bool)
-    {
-        bool success;
-        uint deposited;
-        uint received;
-
-        (success, deposited, received) = iDepositContractsManager(DCM).releaseDeposit(
-            clientId,
-            populousTokenContract,
-            releaseCurrency,
-            receiver,
-            depositIndex
-        );
-
-        if (success) {
-            _transfer(releaseCurrency, clientId, LEDGER_SYSTEM_ACCOUNT, received);
-            _destroyTokens(releaseCurrency, received);
-
-            EventDepositReleased(clientId, populousTokenContract, releaseCurrency, deposited, received, depositIndex);
-            return true;
-        }
-        return false;
-    }
-    /**
-    END OF PPT DEPOSIT MODULE
     */
 }
