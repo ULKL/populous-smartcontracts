@@ -109,22 +109,6 @@ contract Populous is withAccessManager {
         EventNewCurrency(_tokenName, _decimalUnits, _tokenSymbol, currencies[_tokenSymbol]);
     }
 
-    // Deposit function called by our external ERC23 tokens upon transfer to the contract
-    function tokenFallback(address from, uint amount, bytes data) public {
-        bytes32 currencySymbol = currenciesSymbols[msg.sender];
-
-        require(currencySymbol.length != 0);
-
-        bytes32 clientId;
-        assembly {
-            clientId := mload(add(data, 32))
-        }
-        require(CurrencyToken(msg.sender).destroyTokens(amount) != false);
-        
-        ledger[currencySymbol][clientId] = SafeMath.safeAdd(ledger[currencySymbol][clientId], amount);
-        EventDeposit(from, clientId, currencySymbol, amount);
-    }
-
     /** @dev Allows a token owner to withdraw from their wallet to another address
       * @param clientExternal The address to transfer withdrawn amount to.
       * @param clientId The client ID.
@@ -224,6 +208,22 @@ contract Populous is withAccessManager {
         EventInternalTransfer(currency, from, to, amount);
     }
 
+
+    // Deposit function called by our external ERC23 tokens upon transfer to the contract
+    function tokenFallback(address from, uint amount, bytes data) public {
+        bytes32 currencySymbol = currenciesSymbols[msg.sender];
+
+        require(currencySymbol.length != 0);
+
+        bytes32 clientId;
+        assembly {
+            clientId := mload(add(data, 32))
+        }
+        require(CurrencyToken(msg.sender).destroyTokens(amount) != false);
+        
+        ledger[currencySymbol][clientId] = SafeMath.safeAdd(ledger[currencySymbol][clientId], amount);
+        EventDeposit(from, clientId, currencySymbol, amount);
+    }
     
     function importExternalPokens(bytes32 currency, address from, bytes32 accountId) public onlyPopulous {
         CurrencyToken CT = CurrencyToken(currencies[currency]);
@@ -277,49 +277,6 @@ contract Populous is withAccessManager {
     */
 
     // NON-CONSTANT METHODS
-
-
-    /** @dev Creates a new Crowdsale contract instance for an invoice crowdsale restricted to server.
-      * @param _currencySymbol The currency symbol, e.g., GBP.
-      * @param _borrowerId The unique borrower ID.
-      * @param _invoiceId The unique invoice ID.
-      * @param _invoiceNumber The unique invoice number.
-      * @param _invoiceAmount The invoice amount.
-      * @param _fundingGoal The funding goal of the borrower.
-      * @param _platformTaxPercent The percentage charged by the platform
-      * @param _signedDocumentIPFSHash The hash of related invoice documentation saved on IPFS.
-      */
-    function createCrowdsale(
-            bytes32 _currencySymbol,
-            bytes32 _borrowerId,
-            bytes32 _invoiceId,
-            string _invoiceNumber,
-            uint _invoiceAmount,
-            uint _fundingGoal,
-            uint _platformTaxPercent,
-            string _signedDocumentIPFSHash,
-            uint _extraTime)
-        public onlyServer
-    {
-        require(currencies[_currencySymbol] != 0x0);
-
-        address crowdsaleAddr = CM.createCrowdsale(
-            _currencySymbol,
-            _borrowerId,
-            _invoiceId,
-            _invoiceNumber,
-            _invoiceAmount,
-            _fundingGoal,
-            _platformTaxPercent,
-            _signedDocumentIPFSHash,
-            _extraTime
-        );
-
-        uint deadline = now + 24 hours;
-
-        EventNewCrowdsale(crowdsaleAddr, _currencySymbol, _borrowerId, _invoiceId, _invoiceNumber, _invoiceAmount, _fundingGoal, deadline);
-
-    }
 
 
     /** @dev Allows a bidder to place a bid in an invoice crowdsale.

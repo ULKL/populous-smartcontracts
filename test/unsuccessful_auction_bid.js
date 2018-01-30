@@ -4,6 +4,7 @@ CurrencyToken = artifacts.require("CurrencyToken"),
 PopulousToken = artifacts.require("PopulousToken"),
 DepositContractsManager = artifacts.require("DepositContractsManager"),
 Crowdsale = artifacts.require("Crowdsale");
+CrowdsaleManager = artifacts.require("CrowdsaleManager");
 
 contract('Populous / Tokens > ', function(accounts) {
 var
@@ -155,13 +156,24 @@ describe("Deposit Tokens > ", function() {
         });
     });
 
+    it("should init crowdsale manager", function(done) {
+        CrowdsaleManager.deployed().then(function(instance) {
+            CM = instance;
+            console.log('Crowdsale Manager', CM.address);
+            // creating a new currency GBP for which to mint and use tokens
+            //return commonTests.createCurrency(P, "GBP Pokens", 3, "GBP");
+            //}).then(function() {
+            done();
+        });
+    });
+
     it("should create crowdsale", function(done) {
         assert(global.currencies.RND, "Currency required.");
         // borrowerId is accountID 'B' and is funded when fundBeneficiary is called
         // the 100 (_invoiceAmount) is sent to invoice funders / winning group
         // the 90 (_fundingGoal) is sent to borrower from funding group
         // at the end of crowdsale
-        P.createCrowdsale(
+        CM.createCrowdsale(
                 "RND",
                 "B",
                 "#8888",

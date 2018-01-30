@@ -7,6 +7,7 @@ import "./Crowdsale.sol";
 contract CrowdsaleManager is withAccessManager {
 
     // FIELDS
+    event EventNewCrowdsale(address crowdsale, bytes32 _currencySymbol, bytes32 _borrowerId, bytes32 _invoiceId, string _invoiceNumber, uint _invoiceAmount, uint _fundingGoal, uint deadline);
 
 
     // This CrowdsaleEntry variable represents
@@ -57,7 +58,7 @@ contract CrowdsaleManager is withAccessManager {
             string _signedDocumentIPFSHash,
             uint _extraTime)
         public
-        onlyPopulous
+        onlyServer
         returns (address crowdsaleAddr)
     {
         // Avoid using the same invoice in more than crowdsale
@@ -77,5 +78,11 @@ contract CrowdsaleManager is withAccessManager {
             _signedDocumentIPFSHash,
             _extraTime
         );
+
+        uint deadline = now + 24 hours;
+
+        
+        EventNewCrowdsale(crowdsaleAddr, _currencySymbol,  _borrowerId,  _invoiceId,  _invoiceNumber,  _invoiceAmount,  _fundingGoal, deadline);
+
     }
 }

@@ -2,6 +2,7 @@ var
 Populous = artifacts.require("Populous"),
 CurrencyToken = artifacts.require("CurrencyToken"),
 Crowdsale = artifacts.require("Crowdsale");
+CrowdsaleManager = artifacts.require("CrowdsaleManager");
 
 /**
 * @TODO
@@ -125,10 +126,21 @@ describe("Reach goal with bids > ", function() {
         INVESTOR_GROUP1_GOAL = 900,
         INVESTOR_GROUP2_GOAL = 999;
 
+    it("should init crowdsale manager", function(done) {
+        CrowdsaleManager.deployed().then(function(instance) {
+            CM = instance;
+            console.log('Crowdsale Manager', CM.address);
+            // creating a new currency GBP for which to mint and use tokens
+            //return commonTests.createCurrency(P, "GBP Pokens", 3, "GBP");
+            //}).then(function() {
+            done();
+        });
+    });
+
     it("should create crowdsale", function(done) {
         assert(global.currencies.EUR, "Currency required.");
         // create new crowdsale with invoice amount and funding goal
-        P.createCrowdsale(
+        CM.createCrowdsale(
                 "EUR",
                 BORROWER_ACC,
                 "internalsystemid",
