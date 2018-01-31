@@ -1,0 +1,412 @@
+{
+  "contractName": "iCrowdsaleManager",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_currencySymbol",
+          "type": "bytes32"
+        },
+        {
+          "name": "_borrowerId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_invoiceId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_invoiceNumber",
+          "type": "string"
+        },
+        {
+          "name": "_invoiceAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_fundingGoal",
+          "type": "uint256"
+        },
+        {
+          "name": "_platformTaxPercent",
+          "type": "uint256"
+        },
+        {
+          "name": "_signedDocumentIPFSHash",
+          "type": "string"
+        },
+        {
+          "name": "_extraTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "createCrowdsale",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.17;\n\n\n/// @title iCrowdsaleManager contract\ncontract iCrowdsaleManager {\n\n    // NON-CONSTANT METHODS\n\n    /** @dev Creates a new Crowdsale contract instance for an invoice crowdsale.\n      * @param _currencySymbol The currency symbol, e.g., GBP.\n      * @param _borrowerId The unique borrower ID.\n      * @param _invoiceId The unique invoice ID.\n      * @param _invoiceNumber The unique invoice number.\n      * @param _invoiceAmount The invoice amount.\n      * @param _fundingGoal The funding goal of the borrower.\n      * @param _platformTaxPercent The percentage charged by the platform\n      * @param _signedDocumentIPFSHash The hash of related invoice documentation saved on IPFS.\n      * @return address The address of deployed smart contract instance.\n      */\n    function createCrowdsale(\n            bytes32 _currencySymbol,\n            bytes32 _borrowerId,\n            bytes32 _invoiceId,\n            string _invoiceNumber,\n            uint _invoiceAmount,\n            uint _fundingGoal,\n            uint _platformTaxPercent,\n            string _signedDocumentIPFSHash,\n            uint _extraTime)\n            public\n            returns (address);\n}",
+  "sourcePath": "/Users/najienka/Desktop/populous-smartcontracts/contracts/iCrowdsaleManager.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/najienka/Desktop/populous-smartcontracts/contracts/iCrowdsaleManager.sol",
+      "exportedSymbols": {
+        "iCrowdsaleManager": [
+          2193
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 2169,
+        "name": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": "@title iCrowdsaleManager contract",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2193
+          ],
+          "name": "iCrowdsaleManager",
+          "scope": 2194
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "createCrowdsale",
+              "payable": false,
+              "scope": 2193,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_currencySymbol",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 2170,
+                        "name": "ElementaryTypeName",
+                        "src": "831:7:6"
+                      }
+                    ],
+                    "id": 2171,
+                    "name": "VariableDeclaration",
+                    "src": "831:23:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_borrowerId",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 2172,
+                        "name": "ElementaryTypeName",
+                        "src": "868:7:6"
+                      }
+                    ],
+                    "id": 2173,
+                    "name": "VariableDeclaration",
+                    "src": "868:19:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_invoiceId",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 2174,
+                        "name": "ElementaryTypeName",
+                        "src": "901:7:6"
+                      }
+                    ],
+                    "id": 2175,
+                    "name": "VariableDeclaration",
+                    "src": "901:18:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_invoiceNumber",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "string memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string storage pointer"
+                        },
+                        "id": 2176,
+                        "name": "ElementaryTypeName",
+                        "src": "933:6:6"
+                      }
+                    ],
+                    "id": 2177,
+                    "name": "VariableDeclaration",
+                    "src": "933:21:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_invoiceAmount",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2178,
+                        "name": "ElementaryTypeName",
+                        "src": "968:4:6"
+                      }
+                    ],
+                    "id": 2179,
+                    "name": "VariableDeclaration",
+                    "src": "968:19:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_fundingGoal",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2180,
+                        "name": "ElementaryTypeName",
+                        "src": "1001:4:6"
+                      }
+                    ],
+                    "id": 2181,
+                    "name": "VariableDeclaration",
+                    "src": "1001:17:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_platformTaxPercent",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2182,
+                        "name": "ElementaryTypeName",
+                        "src": "1032:4:6"
+                      }
+                    ],
+                    "id": 2183,
+                    "name": "VariableDeclaration",
+                    "src": "1032:24:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_signedDocumentIPFSHash",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "string memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string storage pointer"
+                        },
+                        "id": 2184,
+                        "name": "ElementaryTypeName",
+                        "src": "1070:6:6"
+                      }
+                    ],
+                    "id": 2185,
+                    "name": "VariableDeclaration",
+                    "src": "1070:30:6"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_extraTime",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 2186,
+                        "name": "ElementaryTypeName",
+                        "src": "1114:4:6"
+                      }
+                    ],
+                    "id": 2187,
+                    "name": "VariableDeclaration",
+                    "src": "1114:15:6"
+                  }
+                ],
+                "id": 2188,
+                "name": "ParameterList",
+                "src": "817:313:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2189,
+                        "name": "ElementaryTypeName",
+                        "src": "1171:7:6"
+                      }
+                    ],
+                    "id": 2190,
+                    "name": "VariableDeclaration",
+                    "src": "1171:7:6"
+                  }
+                ],
+                "id": 2191,
+                "name": "ParameterList",
+                "src": "1170:9:6"
+              }
+            ],
+            "id": 2192,
+            "name": "FunctionDefinition",
+            "src": "793:387:6"
+          }
+        ],
+        "id": 2193,
+        "name": "ContractDefinition",
+        "src": "65:1117:6"
+      }
+    ],
+    "id": 2194,
+    "name": "SourceUnit",
+    "src": "0:1182:6"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2018-01-31T09:56:48.510Z"
+}

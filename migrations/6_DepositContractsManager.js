@@ -15,9 +15,9 @@ deployer.then(function() {
         P = instance;
 
         return DepositContractsManager.deployed();
-    }).then(function(DCM) {
-        return P.setDCM(DCM.address);
-    }).then(function() {
+    //}).then(function(DCM) {
+    //    return P.setDCM(DCM.address);
+    //}).then(function() {
         console.log('Finished deploying DCM');
     });
 });
