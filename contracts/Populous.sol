@@ -41,6 +41,8 @@ contract Populous is withAccessManager {
     // Constant fields
 
     bytes32 constant LEDGER_SYSTEM_ACCOUNT = "Populous";
+    bytes32 constant CROWDSALE_ACCOUNT = "Crowdsale";
+
     // This has to be the same one as in Crowdsale
     enum States { Pending, Open, Closed, WaitingForInvoicePayment, PaymentReceived, Completed }
 
@@ -273,6 +275,7 @@ contract Populous is withAccessManager {
         public onlyServer returns (bool success)
     {
         iCrowdsale CS = iCrowdsale(crowdsaleAddr);
+        require(ledger[CS.currencySymbol()][bidderId] >= value && value != 0);//checking bidder poken balance
 
         uint8 err;
         uint finalValue;
@@ -281,7 +284,7 @@ contract Populous is withAccessManager {
         (err, finalValue, groupGoal, goalReached) = CS.bid(groupIndex, bidderId, name, value);
 
         if (err == 0) {
-            _transfer(CS.currencySymbol(), bidderId, LEDGER_SYSTEM_ACCOUNT, finalValue);
+            _transfer(CS.currencySymbol(), bidderId, CROWDSALE_ACCOUNT, finalValue);
             return true;
         } else {
             return false;
@@ -306,6 +309,7 @@ contract Populous is withAccessManager {
         public onlyServer returns (bool success)
     {
         iCrowdsale CS = iCrowdsale(crowdsaleAddr);
+        require(ledger[CS.currencySymbol()][bidderId] >= value && value != 0);//checking bidder poken balance
 
         uint8 err;
         uint finalValue;
@@ -314,7 +318,7 @@ contract Populous is withAccessManager {
         (err, finalValue, groupGoal, goalReached) = CS.initialBid(groupName, goal, bidderId, name, value);
 
         if (err == 0) {
-            _transfer(CS.currencySymbol(), bidderId, LEDGER_SYSTEM_ACCOUNT, finalValue);
+            _transfer(CS.currencySymbol(), bidderId, CROWDSALE_ACCOUNT, finalValue);
             return true;
         } else {
             return false;
@@ -334,7 +338,7 @@ contract Populous is withAccessManager {
 
         bytes32 borrowerId = CS.borrowerId();
         bytes32 currency = CS.currencySymbol();
-        _transfer(currency, LEDGER_SYSTEM_ACCOUNT, borrowerId, amount);
+        _transfer(currency, CROWDSALE_ACCOUNT, borrowerId, amount);
 
         CS.setSentToBeneficiary();
         EventBeneficiaryFunded(crowdsaleAddr, borrowerId, currency, amount);
@@ -371,7 +375,7 @@ contract Populous is withAccessManager {
                     // Check if bidder has already been refunded
                     if (bidderHasReceivedTokensBack == false) {
                         // Refund bidder
-                        _transfer(currency, LEDGER_SYSTEM_ACCOUNT, bidderId, bidAmount);
+                        _transfer(currency, CROWDSALE_ACCOUNT, bidderId, bidAmount);
                         
                         // Save bidder refund in Crowdsale contract
                         CS.setBidderHasReceivedTokensBack(groupIndex, bidderIndex);
@@ -402,7 +406,7 @@ contract Populous is withAccessManager {
 
         if (bidderHasReceivedTokensBack == false && bidderId.length != 0) {
             bytes32 currency = CS.currencySymbol();
-            _transfer(currency, LEDGER_SYSTEM_ACCOUNT, bidderId, bidAmount);
+            _transfer(currency, CROWDSALE_ACCOUNT, bidderId, bidAmount);
             
             // Save bidder refund in Crowdsale contract
             CS.setBidderHasReceivedTokensBack(groupIndex, bidderIndex);
@@ -426,7 +430,7 @@ contract Populous is withAccessManager {
 
         bytes32 currency = CS.currencySymbol();
         _mintTokens(currency, paidAmount);
-
+        _transfer(currency, LEDGER_SYSTEM_ACCOUNT, CROWDSALE_ACCOUNT, paidAmount);
         CS.setPaidAmount(paidAmount);
         
         EventPaymentReceived(crowdsaleAddr, currency, paidAmount);
@@ -464,7 +468,7 @@ contract Populous is withAccessManager {
             // Fund winning bidder based on his contribution
             uint benefitsAmount = bidAmount * paidAmount / amountRaised;
 
-            _transfer(currency, LEDGER_SYSTEM_ACCOUNT, bidderId, benefitsAmount);
+            _transfer(currency, CROWDSALE_ACCOUNT, bidderId, benefitsAmount);
             
             // Save bidder refund in Crowdsale contract
             CS.setBidderHasReceivedTokensBack(winnerGroupIndex, bidderIndex);
@@ -498,7 +502,7 @@ contract Populous is withAccessManager {
             // Fund winning bidder based on his contribution
             uint benefitsAmount = bidAmount * paidAmount / amountRaised;
 
-            _transfer(currency, LEDGER_SYSTEM_ACCOUNT, bidderId, benefitsAmount);
+            _transfer(currency, CROWDSALE_ACCOUNT, bidderId, benefitsAmount);
             
             // Save bidder refund in Crowdsale contract
             CS.setBidderHasReceivedTokensBack(winnerGroupIndex, bidderIndex);

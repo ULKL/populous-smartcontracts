@@ -90,7 +90,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 5023,
+          "SourceUnit": 5008,
           "absolutePath": "/Users/najienka/Desktop/populous-smartcontracts/contracts/iERC20Token.sol",
           "file": "./iERC20Token.sol",
           "scope": 1844,
@@ -220,7 +220,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5117,
+                              "referencedDeclaration": 5102,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -261,7 +261,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5099,
+                                      "referencedDeclaration": 5084,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -476,7 +476,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5099,
+                                  "referencedDeclaration": 5084,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -705,7 +705,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "transfer",
-                              "referencedDeclaration": 4969,
+                              "referencedDeclaration": 4954,
                               "type": "function (address,uint256) external returns (bool)"
                             },
                             "children": [
@@ -735,7 +735,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5022,
+                                      "referencedDeclaration": 5007,
                                       "type": "type(contract iERC20Token)",
                                       "value": "iERC20Token"
                                     },
@@ -932,7 +932,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "balanceOf",
-                              "referencedDeclaration": 4996,
+                              "referencedDeclaration": 4981,
                               "type": "function (address) view external returns (uint256)"
                             },
                             "children": [
@@ -962,7 +962,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5022,
+                                      "referencedDeclaration": 5007,
                                       "type": "type(contract iERC20Token)",
                                       "value": "iERC20Token"
                                     },
@@ -1000,7 +1000,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5145,
+                              "referencedDeclaration": 5130,
                               "type": "contract DepositContract",
                               "value": "this"
                             },
@@ -1040,5 +1040,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.0",
-  "updatedAt": "2018-01-31T09:51:53.533Z"
+  "updatedAt": "2018-01-31T10:12:03.908Z"
 }
