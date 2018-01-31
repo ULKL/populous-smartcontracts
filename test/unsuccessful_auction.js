@@ -162,7 +162,7 @@ describe("Deposit Tokens > ", function() {
                 "AED",
                 "B",
                 "#8888",
-                "#8888",
+                "#8883",
                 200,
                 190,
                 1, 'ipfs', 10)

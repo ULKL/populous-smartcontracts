@@ -178,8 +178,8 @@ describe("Deposit Tokens > ", function() {
                 P.address,
                 "RND",
                 "B",
-                "#8888",
-                "#8888",
+                "#8488",
+                "#5888",
                 200,
                 190,
                 1, 'ipfs', 10)
