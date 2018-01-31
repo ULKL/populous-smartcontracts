@@ -8,14 +8,12 @@ contract AccessManager {
     // fields that can be changed by constructor and functions
 
     address public server; // Address, which the platform website uses.
-    //address public guardian; // Address of the guardian, who confirms actions.
     address public populous; // Address of the Populous bank contract.
-
     address public depositContractsManager; // Address of the deposit contracts manager contract
 
     // NON-CONSTANT METHODS
 
-    /** @dev Constructor that sets the server and guardian when contract is deployed.
+    /** @dev Constructor that sets the server when contract is deployed.
       * @param _server The address to set as the server.
       */
     function AccessManager(address _server) public {
@@ -24,7 +22,7 @@ contract AccessManager {
     }
 
     /** @dev Changes the server address that is set by the constructor.
-      * @dev The method requires the message sender to be the set guardian.
+      * @dev The method requires the message sender to be the set server.
       * @param _server The new address to be set as the server.
       */
     function changeServer(address _server) public {
@@ -41,7 +39,7 @@ contract AccessManager {
     } */
 
     /** @dev Changes the populous contract address.
-      * @dev The method requires the message sender to be the set guardian.
+      * @dev The method requires the message sender to be the set server.
       * @param _populous The address to be set as populous.
       */
     function changePopulous(address _populous) public {
@@ -49,7 +47,10 @@ contract AccessManager {
         populous = _populous;
     }
 
-
+    /** @dev Changes the deposit contracts manager contract address.
+      * @dev The method requires the message sender to be the set server.
+      * @param _depositContractsManager The address to be set as deposit contracts manager.
+      */
     function changeDCM(address _depositContractsManager) public {
         require(isServer(msg.sender) == true);
         depositContractsManager = _depositContractsManager;
