@@ -101,7 +101,8 @@ describe("Bank", function() {
         var externalAddress = accounts[0];
         var depositAmount = 8;
         // deposit EUR tokens from externalAddress to 'A'
-        CT.transferToContract(P.address, depositAmount, config.INVESTOR1_ACC, { from: externalAddress }).then(function(result) {
+        P.importExternalPokens("EUR", externalAddress, config.INVESTOR1_ACC).then(function(result) {
+            console.log('import external pokens to ledger gas cost', result.receipt.gasUsed);
             // check that depositAmount is deducted from externalAddress account
             return CT.balanceOf(externalAddress);
         }).then(function(value) {
@@ -141,6 +142,7 @@ describe("Reach goal with bids > ", function() {
         assert(global.currencies.EUR, "Currency required.");
         // create new crowdsale with invoice amount and funding goal
         CM.createCrowdsale(
+                P.address,
                 "EUR",
                 BORROWER_ACC,
                 "internalsystemid",

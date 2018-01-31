@@ -76,7 +76,7 @@ contract Populous is withAccessManager {
       */
     function createCurrency(bytes32 _tokenName, uint8 _decimalUnits, bytes32 _tokenSymbol)
         public
-        onlyGuardian
+        onlyServer
     {
         // Check if currency already exists
         require(currencies[_tokenSymbol] == 0x0);
@@ -96,7 +96,7 @@ contract Populous is withAccessManager {
       * @param currency The cyrrency symbol, e.g., GBP
       * @param amount The amount.
       */
-    function withdraw(address clientExternal, bytes32 clientId, bytes32 currency, uint amount) public onlyGuardian {
+    function withdraw(address clientExternal, bytes32 clientId, bytes32 currency, uint amount) public onlyServer {
         require(currencies[currency] != 0x0 && ledger[currency][clientId] >= amount);
 
         ledger[currency][clientId] = SafeMath.safeSub(ledger[currency][clientId], amount);
@@ -115,7 +115,7 @@ contract Populous is withAccessManager {
       */
     function mintTokens(bytes32 currency, uint amount)
         public
-        onlyGuardian
+        onlyServerOronlyDCM
         returns (bool success)
     {
         return _mintTokens(currency, amount);
@@ -145,7 +145,7 @@ contract Populous is withAccessManager {
       * @param currency The related currency to mint.
       */
     function destroyTokens(bytes32 currency, uint amount)
-        public onlyGuardian returns (bool success)
+        public onlyServerOronlyDCM returns (bool success)
     {
         return _destroyTokens(currency, amount);
     }
@@ -169,7 +169,7 @@ contract Populous is withAccessManager {
     }    
 
     // Calls the _transfer method to make a transfer on the internal ledger.
-    function transfer(bytes32 currency, bytes32 from, bytes32 to, uint amount) public onlyServer {
+    function transfer(bytes32 currency, bytes32 from, bytes32 to, uint amount) public onlyServerOronlyDCM {
         _transfer(currency, from, to, amount);
     }
 
@@ -189,24 +189,8 @@ contract Populous is withAccessManager {
         EventInternalTransfer(currency, from, to, amount);
     }
 
-
-    // Deposit function called by our external ERC23 tokens upon transfer to the contract
-    function tokenFallback(address from, uint amount, bytes data) public {
-        bytes32 currencySymbol = currenciesSymbols[msg.sender];
-
-        require(currencySymbol.length != 0);
-
-        bytes32 clientId;
-        assembly {
-            clientId := mload(add(data, 32))
-        }
-        require(CurrencyToken(msg.sender).destroyTokens(amount) != false);
-        
-        ledger[currencySymbol][clientId] = SafeMath.safeAdd(ledger[currencySymbol][clientId], amount);
-        EventDeposit(from, clientId, currencySymbol, amount);
-    }
     
-    function importExternalPokens(bytes32 currency, address from, bytes32 accountId) public onlyPopulous {
+    function importExternalPokens(bytes32 currency, address from, bytes32 accountId) public onlyServer {
         CurrencyToken CT = CurrencyToken(currencies[currency]);
         
         //check balance.

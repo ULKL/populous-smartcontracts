@@ -58,7 +58,7 @@ contract DepositContractsManager is withAccessManager {
       * @return address The address of the deployed deposit contract instance.
       */
     function create(bytes32 clientId) public
-        onlyPopulous
+        onlyServer
     {
         depositAddress[clientId] = new DepositContract(clientId);
         assert(depositAddress[clientId] != 0x0);
@@ -77,7 +77,7 @@ contract DepositContractsManager is withAccessManager {
       */
     function deposit(address populousContract, bytes32 clientId, address populousTokenContract, bytes32 receiveCurrency, uint depositAmount, uint receiveAmount)
         public
-        onlyPopulous
+        onlyServer
     {
         DepositContract o = DepositContract(depositAddress[clientId]);
 
@@ -120,7 +120,7 @@ contract DepositContractsManager is withAccessManager {
       */
     function releaseDeposit(address populousContract, bytes32 clientId, address populousTokenContract, bytes32 receiveCurrency, address receiver, uint depositIndex)
         public
-        onlyPopulous
+        onlyServer
     {
         DepositContract o = DepositContract(depositAddress[clientId]);
         

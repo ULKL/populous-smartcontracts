@@ -115,8 +115,8 @@ describe("Bank", function() {
         var externalAddress = accounts[0];
         var depositAmount = 8;
         // deposit CNY tokens from externalAddress to 'A'
-        CT.transferToContract(P.address, depositAmount, config.INVESTOR1_ACC, { from: externalAddress }).then(function(result) {
-            console.log('transfer to contract gas cost', result.receipt.gasUsed);
+        P.importExternalPokens("CNY", externalAddress, config.INVESTOR1_ACC).then(function(result) {
+            console.log('import external pokens to ledger gas cost', result.receipt.gasUsed);
             // check that depositAmount is deducted from externalAddress account
             return CT.balanceOf(externalAddress);
         }).then(function(value) {
@@ -145,6 +145,7 @@ describe("Chosen winner > ", function() {
         assert(global.currencies.CNY, "Currency required.");
         // new invoice crowdsale
         CM.createCrowdsale(
+                P.address,
                 "CNY",
                 BORROWER_ACC,
                 "0x653276385044434451336a66656b5963633132",

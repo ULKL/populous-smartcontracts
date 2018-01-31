@@ -61,7 +61,7 @@ contract CrowdsaleManager is withAccessManager {
             string _signedDocumentIPFSHash,
             uint _extraTime)
         public
-        onlyPopulous
+        onlyServer
     {
         // Avoid using the same invoice in more than crowdsale
         Populous populous = Populous(populousContract);

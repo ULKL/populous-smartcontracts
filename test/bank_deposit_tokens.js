@@ -71,10 +71,11 @@ describe("Deposit Tokens > ", function() {
     it("should create deposit contract for client", function(done) {
         assert(global.PPT, "PPT required.");
 
-        P.DCM.call().then(function(address) {
-            DCM = DepositContractsManager.at(address);
+        DepositContractsManager.deployed().then(function(instance) {
+            DCM = instance;
+            console.log('Deposit contracts manager', DCM.address);
             // create deposit contract for accountID 'A'
-            return P.createDepositContract(config.INVESTOR1_ACC);
+            return DCM.create(config.INVESTOR1_ACC);
         }).then(function(result) {
             console.log('create deposit contract log');
             // printing transaction log in console
@@ -113,7 +114,7 @@ describe("Deposit Tokens > ", function() {
         var faucetAmount = 200;
         // transferring 200 PPT tokens to depositAddress for client from accounts[0]
         // deositAddress is the address of the deposit contract for accountID 'A'
-        global.PPT.transferToAddress(depositAddress, faucetAmount).catch(console.log).then(function(result) {
+        global.PPT.transfer(depositAddress, faucetAmount).catch(console.log).then(function(result) {
             console.log('transfer to address gas cost', result.receipt.gasUsed);
             // checking the balance of depositAddress is 200
             return global.PPT.balanceOf(depositAddress);
@@ -130,10 +131,11 @@ describe("Deposit Tokens > ", function() {
             depositAmount = 200,
             receiveCurrency = 'GBP',
             receiveAmount = 190;
+
         // the deposit amount is refunded later
         // When the actor deposits funds into the platform, an equivalent amount of tokens is deposited into his account
         // client gets receive amount in the particular currency ledger from 'Populous'
-        P.deposit(config.INVESTOR1_ACC, global.PPT.address, receiveCurrency, depositAmount, receiveAmount).then(function(result) {
+        DCM.deposit(P.address, config.INVESTOR1_ACC, global.PPT.address, receiveCurrency, depositAmount, receiveAmount).then(function(result) {
             console.log('new deposit log', result.logs[2]);
             console.log('PPT address', global.PPT.address);
             return DCM.getActiveDepositList.call(config.INVESTOR1_ACC, global.PPT.address, "GBP");
@@ -184,6 +186,7 @@ describe("Deposit Tokens > ", function() {
         // the 190 (_fundingGoal) is sent to borrower from funding group
         // at the end of crowdsale
         CM.createCrowdsale(
+                P.address,
                 "GBP",
                 "B",
                 "#8888",
@@ -356,7 +359,7 @@ describe("Deposit Tokens > ", function() {
         // 390 - 190 = 200 gbp balance for investor1
         // gbp (received) is destroyed and ppt (deposited) is sent back
         // timelock
-        P.releaseDeposit(config.INVESTOR1_ACC, global.PPT.address, releaseCurrency, receiver, depositIndex).then(function(result) {
+        DCM.releaseDeposit(P.address, config.INVESTOR1_ACC, global.PPT.address, releaseCurrency, receiver, depositIndex).then(function(result) {
             console.log('release deposit gas cost', result.receipt.gasUsed);
             // getActiveDepositList returns 1 = deposited and 2 = received
             return DCM.getActiveDepositList.call(config.INVESTOR1_ACC, global.PPT.address, "GBP");
