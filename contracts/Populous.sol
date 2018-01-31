@@ -34,7 +34,11 @@ contract Populous is withAccessManager {
     event EventPaymentReceived(address crowdsaleAddr, bytes32 currency, uint amount);
     event EventWinnerGroupBidderFunded(address crowdsaleAddr, uint groupIndex, bytes32 bidderId, bytes32 currency, uint bidAmount, uint benefitsAmount);
 
+<<<<<<< HEAD
     event EventExchange(bytes32 clientId, bytes32 from_currency, bytes32 to_currency, uint amount, bytes32 conversion_rate, uint from_amount, uint fee_amount);
+=======
+
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
 
     // FIELDS
 
@@ -115,7 +119,11 @@ contract Populous is withAccessManager {
       */
     function mintTokens(bytes32 currency, uint amount)
         public
+<<<<<<< HEAD
         onlyServerOrOnlyDCM
+=======
+        onlyServerOronlyDCM
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
         returns (bool success)
     {
         return _mintTokens(currency, amount);
@@ -145,7 +153,11 @@ contract Populous is withAccessManager {
       * @param currency The related currency to mint.
       */
     function destroyTokens(bytes32 currency, uint amount)
+<<<<<<< HEAD
         public onlyServerOrOnlyDCM returns (bool success)
+=======
+        public onlyServerOronlyDCM returns (bool success)
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
     {
         return _destroyTokens(currency, amount);
     }
@@ -169,7 +181,11 @@ contract Populous is withAccessManager {
     }    
 
     // Calls the _transfer method to make a transfer on the internal ledger.
+<<<<<<< HEAD
     function transfer(bytes32 currency, bytes32 from, bytes32 to, uint amount) public onlyServerOrOnlyDCM {
+=======
+    function transfer(bytes32 currency, bytes32 from, bytes32 to, uint amount) public onlyServerOronlyDCM {
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
         _transfer(currency, from, to, amount);
     }
 
@@ -497,6 +513,7 @@ contract Populous is withAccessManager {
     /**
     END OF CROWDSALE MODULE
     */
+<<<<<<< HEAD
 
     /**
     EXCHANGE MODULE 
@@ -524,4 +541,6 @@ contract Populous is withAccessManager {
         EventExchange(clientId, from_currency, to_currency, from_amount, conversion_rate, to_amount, fee_amount);
     }
 
+=======
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
 }

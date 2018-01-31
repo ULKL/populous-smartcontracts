@@ -19,7 +19,11 @@ contract withAccessManager {
         _;
     }
 
+<<<<<<< HEAD
     modifier onlyServerOrOnlyDCM {
+=======
+    modifier onlyServerOronlyDCM {
+>>>>>>> cedaac7b9960dc3a21fb24976c8233f467200879
         require(AM.isServer(msg.sender) == true || AM.isDCM(msg.sender) == true);
         _;
     }
