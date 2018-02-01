@@ -36,6 +36,7 @@ contract Populous is withAccessManager {
 
     event EventExchange(bytes32 clientId, bytes32 from_currency, bytes32 to_currency, uint amount, bytes32 conversion_rate, uint from_amount, uint fee_amount);
 
+
     // FIELDS
 
     // Constant fields
@@ -497,8 +498,6 @@ contract Populous is withAccessManager {
     /**
     END OF CROWDSALE MODULE
     */
-    
-
     /**
     EXCHANGE MODULE 
      */
@@ -524,5 +523,4 @@ contract Populous is withAccessManager {
         //emit exchange event
         EventExchange(clientId, from_currency, to_currency, from_amount, conversion_rate, to_amount, fee_amount);
     }
-
 }
