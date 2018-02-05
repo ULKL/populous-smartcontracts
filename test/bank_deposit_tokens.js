@@ -513,10 +513,10 @@ describe("Deposit Tokens > ", function() {
             // get investor1 account balance in GBP tokens after 190 GBP pokens are destroyed
             return P.getLedgerEntry.call("GBP", config.INVESTOR1_ACC);
         }).then(function(value) {
-            // investor1 should have 490 - 190 = 200 GBP Pokens left in GBP ledger
+            // investor1 should have 490 - 190 = 300 GBP Pokens left in GBP ledger
             // as 190 GBP Poken received when 200 PPT was deposited will be destroyed 
             // upon calling release deposit 
-            // 200 - 10 fee amount for invoice seller upon calling invoicePaymentReceived
+            // 300 - 10 fee amount for invoice seller upon calling invoicePaymentReceived
             assert.equal(value.toNumber(), 300 - 10, "Failed funding winner group");
             done();
         })
