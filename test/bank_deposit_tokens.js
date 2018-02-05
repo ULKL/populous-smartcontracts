@@ -469,7 +469,11 @@ describe("Deposit Tokens > ", function() {
             // invoice amount was 200
             return P.getLedgerEntry.call("GBP", config.INVESTOR1_ACC);
         }).then(function(value) {
+<<<<<<< HEAD
             assert.equal(value.toNumber(), 480, "Failed funding winner group");
+=======
+            assert.equal(value.toNumber(), 490, "Failed funding winner group");
+>>>>>>> master
             return Crowdsale.at(crowdsale).bidderHasTokensBack.call(config.INVESTOR1_ACC);
         }).then(function(result) {
             assert.equal(result, 1, "Failed funding bidder in winner group");
@@ -513,11 +517,18 @@ describe("Deposit Tokens > ", function() {
             // get investor1 account balance in GBP tokens after 190 GBP pokens are destroyed
             return P.getLedgerEntry.call("GBP", config.INVESTOR1_ACC);
         }).then(function(value) {
+<<<<<<< HEAD
             // investor1 should have 490 - 190 = 300 GBP Pokens left in GBP ledger
             // as 190 GBP Poken received when 200 PPT was deposited will be destroyed 
             // upon calling release deposit 
             // 300 - 10 fee amount for invoice seller upon calling invoicePaymentReceived
             assert.equal(value.toNumber(), 300 - 10, "Failed funding winner group");
+=======
+            // investor1 should have 490 - 190 = 200 GBP Pokens left in GBP ledger
+            // as 190 GBP Poken received when 200 PPT was deposited will be destroyed 
+            // upon calling release deposit 
+            assert.equal(value.toNumber(), 300, "Failed funding winner group");
+>>>>>>> master
             done();
         })
     });
