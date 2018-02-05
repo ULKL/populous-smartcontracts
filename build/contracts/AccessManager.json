@@ -492,7 +492,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5080,
+                              "referencedDeclaration": 5045,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -567,7 +567,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 5062,
+                                          "referencedDeclaration": 5027,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -768,7 +768,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5080,
+                              "referencedDeclaration": 5045,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -843,7 +843,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 5062,
+                                          "referencedDeclaration": 5027,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -1044,7 +1044,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5080,
+                              "referencedDeclaration": 5045,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1119,7 +1119,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 5062,
+                                          "referencedDeclaration": 5027,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -1696,13 +1696,7 @@
     "name": "SourceUnit",
     "src": "0:3278:0"
   },
-  "networks": {
-    "3": {
-      "events": {},
-      "links": {},
-      "address": "0xdd42abce3885f0e22ec9bf1d96cd9ea4820be8ed"
-    }
-  },
+  "networks": {},
   "schemaVersion": "1.0.0",
-  "updatedAt": "2018-02-02T08:05:34.133Z"
+  "updatedAt": "2018-02-05T11:17:32.062Z"
 }
